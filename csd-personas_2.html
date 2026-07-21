@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CS&D Student Personas</title>
+<style>
+:root{
+  /* warm, high-chroma persona palette */
+  --p1:#C64A2E; /* persimmon */
+  --p2:#D98A1F; /* amber */
+  --p3:#B0912A; /* brass */
+  --p4:#3F8A6E; /* viridian */
+  --p5:#2E6FA3; /* lapis */
+  --p6:#8B4A82; /* mulberry */
+
+  /* learning-goal colors, carried over from the ladder */
+  --plan:#1F5C73;
+  --story:#7A3E5C;
+  --network:#5A5A2E;
+  --experience:#6B3D1E;
+
+  --bg:#FFFFFF;
+  --ink:#111111;
+  --ink-2:#3D3D3D;
+  --ink-3:#757575;
+  --rule:#DEDEDE;
+  --rule-soft:#EFEFEF;
+  --panel:#FBF8F4;
+}
+html[data-theme="dark"]{
+  --p1:#E8765A; --p2:#EDAA4A; --p3:#D4B44E; --p4:#5FB894; --p5:#5E9ECF; --p6:#B87AAF;
+  --plan:#6FB6D1; --story:#D394B0; --network:#B6B66A; --experience:#D3936A;
+  --bg:#0A0A0A; --ink:#F2F2F2; --ink-2:#C4C4C4; --ink-3:#8C8C8C;
+  --rule:#2E2E2E; --rule-soft:#1C1C1C; --panel:#141210;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.55;
+  transition:background .25s,color .25s;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 26px 100px;}
+
+/* masthead */
+.mast{padding:44px 0 24px;border-bottom:1px solid var(--ink);}
+.eyebrow{
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;
+}
+h1{
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-weight:500;
+  font-size:clamp(30px,5vw,46px);line-height:1.05;letter-spacing:-.015em;margin:0 0 16px;
+}
+h1 em{font-style:italic;}
+.standfirst{
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-size:18px;line-height:1.5;
+  color:var(--ink-2);max-width:64ch;margin:0;
+}
+.theme-btn{
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;background:none;border:1px solid var(--rule);
+  color:var(--ink-2);padding:7px 12px;cursor:pointer;border-radius:2px;margin-top:20px;
+}
+.theme-btn:hover{border-color:var(--ink);color:var(--ink);}
+
+/* premise note */
+.premise{
+  background:var(--panel);border-left:3px solid var(--p2);
+  padding:20px 22px;margin:34px 0 0;
+}
+.premise p{margin:0;font-size:14px;line-height:1.6;color:var(--ink-2);}
+.premise p + p{margin-top:10px;}
+.premise b{color:var(--ink);}
+
+/* toc */
+.toc{margin:40px 0 0;padding-top:26px;border-top:1px solid var(--rule);}
+.toc-head{
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:18px;
+}
+.toc-section + .toc-section{margin-top:30px;}
+.toc-section-head{
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  font-size:12.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink);margin-bottom:4px;padding-bottom:10px;
+  border-bottom:1px solid var(--ink);
+}
+.toc-section-sub{
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  font-size:11.5px;font-weight:400;color:var(--ink-3);margin-left:8px;
+}
+.toc-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:2px 26px;list-style:none;margin:12px 0 0;padding:0;
+}
+.toc-grid a{
+  display:flex;align-items:center;gap:11px;
+  padding:8px 0;color:var(--ink);text-decoration:none;
+  font-size:14px;font-weight:400;border-bottom:1px solid var(--rule-soft);
+}
+.toc-grid a:hover .toc-name{text-decoration:underline;text-underline-offset:3px;}
+.toc-grid a:hover .chip{transform:scale(1.12);}
+.chip{
+  width:16px;height:16px;flex:0 0 16px;border-radius:2px;
+  background:var(--sq);display:block;transition:transform .15s;
+}
+.toc-name{flex:1;}
+
+/* persona */
+.persona{
+  padding:44px 0 40px;border-bottom:1px solid var(--rule);
+  scroll-margin-top:20px;
+}
+.p-head{display:flex;gap:20px;align-items:flex-start;margin-bottom:20px;}
+.avatar{
+  width:76px;height:76px;flex:0 0 76px;border-radius:3px;
+  background:var(--sq);display:block;
+}
+.p-titles{flex:1;min-width:0;padding-top:2px;}
+.p-kicker{
+  display:flex;align-items:baseline;justify-content:flex-end;
+  margin-bottom:6px;
+}
+.totop{
+  color:var(--ink-3);text-decoration:none;border:1px solid var(--rule);
+  border-radius:2px;padding:1px 6px;font-size:9px;letter-spacing:.1em;
+}
+.totop:hover{color:var(--ink);border-color:var(--ink);}
+.p-name{
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-size:27px;font-weight:600;
+  letter-spacing:-.015em;line-height:1.15;margin:0 0 6px;color:var(--sil);
+}
+.p-status{
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-size:10.5px;letter-spacing:.04em;
+  color:var(--ink-3);line-height:1.7;
+}
+.p-narr{
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-size:16.5px;line-height:1.6;
+  color:var(--ink);margin:0 0 24px;max-width:70ch;
+}
+.wbl{
+  display:inline-flex;align-items:baseline;gap:8px;
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-size:10.5px;letter-spacing:.05em;
+  border:1px solid var(--rule);border-left:3px solid var(--sil);
+  padding:7px 11px;margin:0 0 24px;color:var(--ink-2);border-radius:2px;
+}
+.wbl b{color:var(--ink);font-weight:500;letter-spacing:.12em;text-transform:uppercase;font-size:9.5px;}
+
+.lists{display:grid;grid-template-columns:1fr;gap:26px;}
+.lh{
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);
+  padding-bottom:8px;border-bottom:1px solid var(--rule-soft);margin-bottom:12px;
+}
+ul.items{list-style:none;margin:0;padding:0;}
+ul.items li{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:7px 0;font-size:14px;line-height:1.55;color:var(--ink-2);
+}
+ul.items li b{color:var(--ink);font-weight:600;}
+.dot{
+  flex:0 0 8px;width:8px;height:8px;margin-top:6px;border-radius:50%;
+  background:var(--gc,var(--ink-3));
+}
+.brought .dot{background:transparent;border:1.5px solid var(--ink-3);}
+.tag{
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-size:9.5px;letter-spacing:.06em;
+  color:var(--gc);white-space:nowrap;
+}
+.moral{
+  margin-top:26px;padding:16px 0 0;border-top:1px solid var(--rule-soft);
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-style:italic;font-size:16px;
+  line-height:1.5;color:var(--ink);max-width:68ch;
+}
+.moral::before{
+  content:"Takeaway";display:block;font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:7px;
+}
+
+/* key */
+.key{margin-top:44px;padding-top:22px;border-top:1px solid var(--ink);}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px 28px;margin-top:14px;}
+.keyitem{font-size:12.5px;color:var(--ink-2);display:flex;gap:9px;align-items:flex-start;}
+.keyitem .dot{margin-top:5px;}
+.colophon{
+  margin-top:34px;font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;font-size:10.5px;
+  line-height:1.9;color:var(--ink-3);
+}
+
+@media (max-width:640px){
+  .wrap{padding:0 18px 70px;}
+  .p-head{gap:14px;}
+  .avatar{width:56px;height:56px;flex:0 0 56px;}
+  .p-name{font-size:22px;}
+  .toc-grid{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast" id="top">
+  <div class="eyebrow">Suffolk University · Career Strategy &amp; Design</div>
+  <h1>Fifteen students,<br><em>one requirement</em></h1>
+  <p class="standfirst">How different students move through the four-stage CS&amp;D continuum — what each already brings, where each has real gaps, and how the behavioral outcomes do work at the two moments that matter most: securing work-based learning, and landing what comes after Suffolk.</p>
+  <button class="theme-btn" id="themeBtn">Dark mode</button>
+</header>
+
+<div class="premise">
+  <p><b>On the question of students who “already know this.”</b> Several of the personas below arrive with genuine proficiency in something CS&amp;D covers. That is expected, and it is not an argument against the requirement.</p>
+  <p>We routinely teach students things some of them already know — that is what a shared curriculum is. The relevant question is not whether a student has seen the content before, but whether the structure moves them from where they actually are. A student who arrives with a good resume does not repeat the resume; they hit <b>Stage 2</b>’s skills-based translation, then <b>Stage 3</b>’s outcomes-not-duties revision, then <b>Stage 4</b>’s alignment to a named target. The artifact is the same word. The demand is not.</p>
+  <p>Each persona’s first list is what they brought. The second, longer list is what the four stages actually did.</p>
+</div>
+
+<nav class="toc">
+  <div class="toc-head">The personas</div>
+  <div id="toc"></div>
+</nav>
+
+<main id="board"></main>
+
+<section class="key">
+  <div class="toc-head">Reading the callouts</div>
+  <div class="keygrid">
+    <div class="keyitem"><span class="dot" style="--gc:var(--plan)"></span><span><b>Make a Plan</b> — pathways, iteration, contingency.</span></div>
+    <div class="keyitem"><span class="dot" style="--gc:var(--story)"></span><span><b>Share Your Story</b> — resume, pitch, interview, translation.</span></div>
+    <div class="keyitem"><span class="dot" style="--gc:var(--network)"></span><span><b>Build Your Network</b> — mapping, outreach, the ask.</span></div>
+    <div class="keyitem"><span class="dot" style="--gc:var(--experience)"></span><span><b>Gain Experience</b> — WBL quality, purpose, feedback.</span></div>
+    <div class="keyitem"><span class="dot" style="border:1.5px solid var(--ink-3);background:transparent"></span><span><b>Hollow</b> — arrived already holding this.</span></div>
+  </div>
+  <div class="colophon">
+    Personas are composites drawn for design discussion; they are not individual students.<br>
+    Stage 1 Career Exploration · Stage 2 Career Fundamentals · Stage 3 Work-Based Learning · Stage 4 Career Launch.
+  </div>
+</section>
+
+</div>
+
+<script>
+/* ---------- abstract iconographic marks ---------- */
+/* Each mark is a non-figurative glyph. No bodies, no faces. */
+const MARKS = {
+  branch:  `<path d="M38 62 V30 M38 30 L24 18 M38 30 L52 18" stroke="var(--sil)" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="38" cy="62" r="4" fill="var(--sil)"/>`,
+  arcs:    `<path d="M20 54 A22 22 0 0 1 56 54" stroke="var(--sil)" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M28 54 A13 13 0 0 1 48 54" stroke="var(--sil)" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="38" cy="54" r="3.5" fill="var(--sil)"/>`,
+  converge:`<path d="M18 20 L44 38 M18 38 L44 38 M18 56 L44 38" stroke="var(--sil)" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="52" cy="38" r="5" fill="var(--sil)"/>`,
+  grid:    `<rect x="19" y="19" width="15" height="15" fill="var(--sil)"/><rect x="42" y="19" width="15" height="15" fill="none" stroke="var(--sil)" stroke-width="3"/><rect x="19" y="42" width="15" height="15" fill="none" stroke="var(--sil)" stroke-width="3"/><rect x="42" y="42" width="15" height="15" fill="var(--sil)"/>`,
+  ascend:  `<path d="M18 58 L30 44 L42 50 L58 22" stroke="var(--sil)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="58" cy="22" r="4.5" fill="var(--sil)"/>`,
+  nodes:   `<circle cx="24" cy="26" r="5" fill="var(--sil)"/><circle cx="52" cy="26" r="5" fill="none" stroke="var(--sil)" stroke-width="3"/><circle cx="38" cy="52" r="5" fill="var(--sil)"/><path d="M24 26 L52 26 M24 26 L38 52 M52 26 L38 52" stroke="var(--sil)" stroke-width="2.5" fill="none"/>`,
+  aperture:`<circle cx="38" cy="38" r="19" fill="none" stroke="var(--sil)" stroke-width="3.5"/><path d="M38 19 L38 38 L54 48" stroke="var(--sil)" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+  stack:   `<rect x="18" y="46" width="40" height="6" fill="var(--sil)"/><rect x="24" y="34" width="28" height="6" fill="var(--sil)"/><rect x="30" y="22" width="16" height="6" fill="var(--sil)"/>`,
+  bridge:  `<path d="M18 48 Q38 18 58 48" stroke="var(--sil)" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M18 48 L18 58 M38 30 L38 58 M58 48 L58 58" stroke="var(--sil)" stroke-width="3" stroke-linecap="round"/>`,
+  offset:  `<rect x="20" y="20" width="26" height="26" fill="none" stroke="var(--sil)" stroke-width="3"/><rect x="32" y="32" width="26" height="26" fill="var(--sil)" opacity=".85"/>`,
+  radial:  `<circle cx="38" cy="38" r="4.5" fill="var(--sil)"/><path d="M38 38 L38 18 M38 38 L55 48 M38 38 L21 48" stroke="var(--sil)" stroke-width="3" stroke-linecap="round"/><circle cx="38" cy="18" r="3.5" fill="var(--sil)"/><circle cx="55" cy="48" r="3.5" fill="var(--sil)"/><circle cx="21" cy="48" r="3.5" fill="var(--sil)"/>`,
+  wedge:   `<path d="M38 18 L58 56 L18 56 Z" fill="none" stroke="var(--sil)" stroke-width="3.5" stroke-linejoin="round"/><path d="M38 40 L48 56 L28 56 Z" fill="var(--sil)"/>`,
+  loop:    `<path d="M26 30 A14 14 0 1 1 26 46 L50 46 A14 14 0 1 0 50 30 Z" fill="none" stroke="var(--sil)" stroke-width="3.5" stroke-linejoin="round"/>`,
+  pivot:   `<path d="M20 58 L20 34 A18 18 0 0 1 56 34 L56 44" stroke="var(--sil)" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M49 37 L56 45 L63 37" stroke="var(--sil)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  keystone:`<path d="M22 24 H54 L48 52 H28 Z" fill="none" stroke="var(--sil)" stroke-width="3.5" stroke-linejoin="round"/><path d="M38 24 V52" stroke="var(--sil)" stroke-width="3"/>`
+};
+
+/* ---------- personas ---------- */
+const P = [
+  {
+    id:"life-sciences", cat:"discipline", mark:"arcs", sq:"var(--p4)", sil:"#FFFFFF",
+    name:"The life sciences student",
+    status:"Biology major · Sophomore at Stage 2 · Assumed medical school",
+    narr:`Came in certain that biology meant medicine, because that was the only version of the field ever described to them. Strong in the lab, fluent in the coursework, and genuinely good at the science. But had never met a person who used a biology degree for anything other than a clinical career, and had never asked whether the thing they liked about the lab — the problem-solving, the instrumentation — actually pointed at medicine at all. Stage 1's exploration surfaced the gap between the major and the range of work the major opens.`,
+    wbl:"Quality-control lab placement at a regional biotech firm; supervised by a full-time analytical chemist.",
+    brought:[
+      `<b>Real technical depth.</b> Could already demonstrate lab skills relevant to a career — which is the Stage 3 technical outcome. Stage 2 didn't re-teach it; it asked which skills the <i>job descriptions</i> actually named.`,
+      `<b>A credible resume of coursework.</b> The Stage 1 resume review found little to fix on formatting, so the review went straight to substance.`,
+      `<b>Comfort with faculty.</b> Already had lab-adjacent relationships, so the Stage 1 network inventory started from a real base rather than an empty one.`
+    ],
+    gaps:[
+      {g:"plan", t:`<b>Confusing a major with a pathway.</b> Stage 1's structured exploration across 2–3 broad areas forced a look at biotech QC, regulatory affairs, and science policy alongside medicine. The deliverable was a research map of what stayed open — not a decision.`, tag:"S1 · Pathway Identification"},
+      {g:"plan", t:`<b>No contingency at all.</b> The alternate-pathway outcome at Stage 2 made them name one other route and a reason to take it. When the MCAT timeline slipped, that named alternate was already researched rather than improvised.`, tag:"S2 · Contingency"},
+      {g:"network", t:`<b>An entirely academic network.</b> The Stage 2 alum conversation was the first time they spoke to a working scientist outside a university, which is where the biotech QC idea actually came from.`, tag:"S2 · Structured Conversations"},
+      {g:"experience", t:`<b>Assumed only clinical hours "counted."</b> The Stage 1 WBL criteria outcome reframed legitimacy around supervision, defined responsibilities, and field relevance — which made the biotech placement obviously qualifying.`, tag:"S1 · WBL Quality"},
+      {g:"story", t:`<b>Described duties, not outcomes.</b> Stage 3's resume revision turned "ran assays" into a stated result, which is what made them legible to employers who don't read transcripts.`, tag:"S3 · Resume"}
+    ],
+    moral:`Depth in the discipline was never the problem. The gap was that nobody had ever shown this student the shape of the field around the degree — and a required exploration stage did in one semester what four years of proximity to a lab had not.`
+  },
+  {
+    id:"english", cat:"discipline", mark:"branch", sq:"var(--p6)", sil:"#FFFFFF",
+    name:"The English major",
+    status:"English major · Junior at Stage 3 · Told repeatedly the degree is impractical",
+    narr:`Has heard some version of "so, teaching?" since declaring. Writes exceptionally well, reads institutions and arguments quickly, and has been quietly defensive about the major for two years — which had hardened into avoiding career conversations entirely. The problem was never capability. It was that this student had no vocabulary for naming what the degree had built, and no evidence that anyone outside the English department valued it.`,
+    wbl:"Communications and content placement at a health-policy nonprofit; supervised by a full-time communications director.",
+    brought:[
+      `<b>A finished personal statement.</b> The Stage 1 personal statement outcome was, for this student, a refinement rather than a first attempt — so the Career Center review pushed on audience rather than mechanics.`,
+      `<b>Genuine writing evidence.</b> Stage 4's additional portfolio artifact already existed in draft; the stage made them align it to a target rather than produce it from nothing.`,
+      `<b>Comfort with revision.</b> The Career Plan v1→v4 iteration thread is native to how an English major already works.`
+    ],
+    gaps:[
+      {g:"story", t:`<b>Could write, but couldn't translate.</b> The Stage 1 skills-translation outcome — putting one piece of coursework into NACE competency language — was the single highest-leverage moment. A seminar paper became evidence of analysis and written communication, in words an employer recognizes.`, tag:"S1 · Skills Translation"},
+      {g:"story", t:`<b>An essayistic pitch.</b> The 60–90 second introduction had to be delivered in a conversational register, not a written one. First attempt failed on exactly that; the register was the lesson.`, tag:"S1 · Personal Narrative"},
+      {g:"plan", t:`<b>Two years of avoided narrowing.</b> Stage 2's move to 1–2 target pathways, backed by real job titles and outlook data, replaced defensiveness with specifics.`, tag:"S2 · Pathway Identification"},
+      {g:"network", t:`<b>Believed the network didn't exist.</b> The Stage 1 inventory found alumni in policy and publishing that the student had assumed weren't there. The named gap category was "anyone employed."`, tag:"S1 · Network Inventory"},
+      {g:"network", t:`<b>Wouldn't make the ask.</b> Stage 2's rehearsed roleplay before live outreach mattered more here than almost anywhere — the three personalized messages that followed produced the nonprofit lead.`, tag:"S2 · Outreach & the Ask"}
+    ],
+    moral:`This student didn't need to become more employable. They needed to be able to say what they already were — and a required translation outcome, early, did more than four years of being told the degree was fine.`
+  },
+  {
+    id:"marketing", cat:"discipline", mark:"nodes", sq:"var(--p1)", sil:"#FFFFFF",
+    name:"The marketing student",
+    status:"Marketing major · Junior at Stage 3 · Confident, well-networked, thin on evidence",
+    narr:`Presents beautifully. Has a polished LinkedIn, an active presence, and no difficulty walking into a room. This student's risk was the opposite of most: the story ran well ahead of the substance, and nobody had ever pushed back on it. Every early conversation was strong and every second-round interview stalled, because the specifics underneath the pitch weren't there yet.`,
+    wbl:"Paid social media and campaign analytics internship at a mid-size agency; supervised by a full-time account manager.",
+    brought:[
+      `<b>A complete LinkedIn profile.</b> The Stage 2 outcome was already met on arrival — so the work moved to Stage 3's harder version: a supervisor endorsement and a verified skill, which can't be self-authored.`,
+      `<b>Real networking comfort.</b> The Stage 1 discomfort-naming outcome was answered honestly and quickly, which let Stage 2 target a genuinely harder scenario instead of a beginner one.`,
+      `<b>An instinct for audience.</b> Made the skills-based translation outcome fast rather than novel.`
+    ],
+    gaps:[
+      {g:"experience", t:`<b>No evidence behind the claims.</b> The Stage 3 technical skill outcome required demonstrating a named skill by example. Campaign analytics — not "social media" in the abstract — became the thing they could actually show.`, tag:"S3 · Technical Skill"},
+      {g:"story", t:`<b>Duties dressed as outcomes.</b> Stage 3's resume revision was where the pitch met a number for the first time.`, tag:"S3 · Resume"},
+      {g:"experience", t:`<b>Never sought hard feedback.</b> The Stage 3 self-evaluation versus supervisor evaluation surfaced a real discrepancy — self-rated far higher on strategy than the supervisor did. Stage 4 required explaining how that changed the self-description.`, tag:"S3–S4 · Self- vs. Supervisor-Evaluation"},
+      {g:"plan", t:`<b>Charisma as a plan.</b> The Career Plan v2.0's requirement of a documented search strategy replaced "something will come up" with a timeline.`, tag:"S2 · Career Plan"},
+      {g:"story", t:`<b>Interview stalls nobody had diagnosed.</b> The Stage 2 mock interview's self-identified improvement areas named the pattern: strong opening, no specific example.`, tag:"S2 · Interview Performance"}
+    ],
+    moral:`For the student who already looks ready, the curriculum's value is the check — the supervisor evaluation, the demanded example, the discrepancy they'd never have gone looking for. Confidence got them the first conversation. The evidence got them the offer.`
+  },
+  {
+    id:"finance", cat:"discipline", mark:"ascend", sq:"var(--p5)", sil:"#FFFFFF",
+    name:"The finance student",
+    status:"Finance major · Sophomore at Stage 2 · Recruiting timeline already underway",
+    narr:`Knows the recruiting calendar better than most advisors, because in this field the calendar is the whole game and everyone in the major talks about it constantly. Technically strong, competitive, and surrounded by people doing exactly the same thing with exactly the same resume. The gap here wasn't preparation. It was that this student was indistinguishable from forty classmates, and had never been asked to be anything else.`,
+    wbl:"Summer analyst placement at a regional bank; supervised by a full-time associate. Targeted rising-junior summer for full-time conversion.",
+    brought:[
+      `<b>A clean, correct resume.</b> Stage 1's review found nothing structural — so it pushed on differentiation, which was the actual weakness.`,
+      `<b>Full awareness of the timeline.</b> The Stage 2 WBL search tactics outcome was mostly confirmation. Useful confirmation: the plan survived contact with a documented strategy.`,
+      `<b>Technical fluency.</b> Could already name the skills the pathway required from real job descriptions, so Stage 2's outcome was met early.`
+    ],
+    gaps:[
+      {g:"story", t:`<b>Interchangeable with the cohort.</b> The Stage 4 competency "case" outcome — translating the full record into 3–4 competencies for a specific role — was where the difference finally showed. Not better accounting. A reason to pick <i>this</i> one.`, tag:"S4 · Skills Translation"},
+      {g:"network", t:`<b>Networked only inside the major.</b> The Stage 1 inventory's gap category was uncomfortable to see: everyone in the map was doing the same thing they were.`, tag:"S1 · Network Inventory"},
+      {g:"plan", t:`<b>One path, no alternate.</b> Stage 2's alternate-pathway outcome was resisted and then, after a first-round rejection, used. Stage 3 asked whether WBL strengthened or weakened the alternate's case.`, tag:"S2–S3 · Contingency"},
+      {g:"story", t:`<b>Rehearsed answers, no self.</b> Stage 3's behavioral-interview outcome required a specific placement example about ambiguity — which cannot be pre-scripted from a guide.`, tag:"S3 · Interview Performance"},
+      {g:"experience", t:`<b>Purpose assumed, never stated.</b> The Stage 2 purpose statement forced a choice: exploration, skill-building, or converting to a full-time offer. Naming it changed how the summer got used.`, tag:"S2 · Purpose & Goal-Setting"}
+    ],
+    moral:`In a major where everyone is prepared, preparation stops being an advantage. What separated this student was the one requirement their classmates treated as a formality — being able to say, specifically, what they bring that the next equally-qualified candidate doesn't.`
+  },
+  {
+    id:"first-gen", cat:"identity", mark:"radial", sq:"var(--p2)", sil:"#1A1A1A",
+    name:"The first-generation student",
+    status:"Arts & Sciences · Sophomore at Stage 2 · First in family to attend college",
+    narr:`Is doing well academically and has been given, by everyone who loves them, career advice that is warm and useless — because none of it comes from inside the industries they're considering. Works hard, doesn't ask for help, and has absorbed the idea that networking is something other people's families do for them. The central deficit was never ability or effort. It was access, and specifically the belief that asking for access was presumptuous.`,
+    wbl:"Operations placement at a hospital system, sourced through an alum contact made at Stage 2.",
+    brought:[
+      `<b>Serious work history.</b> Had been employed since high school. Stage 1's translation outcome turned that from "not relevant" into demonstrable competency evidence.`,
+      `<b>Comfort with responsibility.</b> Made the Stage 3 supervision and feedback outcomes land easily — this student already knew how to be managed.`,
+      `<b>Clear-eyed motivation.</b> The Stage 1 self-assessment was answered without inflation, which made the development actions real.`
+    ],
+    gaps:[
+      {g:"network", t:`<b>The whole Build Your Network goal was the point.</b> Social capital was the actual gap — not skills, not grades, not drive. The Stage 1 inventory named the missing category out loud, and the following three stages were the only structured chance this student had to build it.`, tag:"Goal · Build Your Network"},
+      {g:"network", t:`<b>Thought the ask was an imposition.</b> The Stage 2 rehearsed roleplay before live outreach mattered enormously — not for the script, but for the permission. The hospital placement came from the alum conversation that followed.`, tag:"S2 · Outreach & the Ask"},
+      {g:"plan", t:`<b>Advice from informal sources only.</b> Stage 1's outcome — identify 3 credible sources beyond peer and family advice — sounds procedural. For this student it replaced the entire information base.`, tag:"S1 · Make a Plan (single-stage)"},
+      {g:"experience", t:`<b>Couldn't tell a good opportunity from a bad one.</b> The Stage 2 WBL quality thresholds gave this student a way to evaluate an offer independently, rather than accepting whatever appeared first.`, tag:"S2 · WBL Quality"},
+      {g:"network", t:`<b>No plan past graduation.</b> Stage 4's post-graduation network maintenance plan, with a specific outreach cadence, is the difference between a network that decays and one that compounds.`, tag:"S4 · Build Your Network (single-stage)"}
+    ],
+    moral:`For this student the requirement isn't remedial — it's redistributive. Everything CS&amp;D teaches, some students receive at home. Making it curricular is how the ones who don't stop being outcompeted by proximity rather than merit.`
+  },
+  {
+    id:"undeclared", cat:"identity", mark:"aperture", sq:"var(--p3)", sil:"#1A1A1A",
+    name:"The first-year undeclared student",
+    status:"Undeclared · First year at Stage 1 · Genuinely open",
+    narr:`Has no idea yet, and has been made to feel that this is a problem to solve immediately. Interested in several things, committed to none, and getting pressure from every direction to just pick. The risk for this student was never indecision — it was premature closure: choosing something fast to stop the question, then discovering in junior year that the choice was arbitrary.`,
+    wbl:"Not yet — but has an action plan, a criteria set, and a two-semester timeline drafted at Stage 2.",
+    brought:[
+      `<b>Real openness.</b> Rare and worth protecting. Stage 1 is explicitly a discovery engine and not a filter, which is the only reason this student engaged honestly rather than performing certainty.`,
+      `<b>Broad curiosity.</b> Made the exploration across 2–3 areas genuine rather than a compliance exercise.`,
+      `<b>No sunk cost.</b> Nothing to defend, so the research map recorded what was actually learned.`
+    ],
+    gaps:[
+      {g:"plan", t:`<b>Confused "no plan" with "no method."</b> Career Plan v1.0 explicitly asks for open questions and a personal method for continuing to narrow — <i>not</i> a finalized pathway. This student's plan was legitimately a plan.`, tag:"S1 · Career Plan v1.0"},
+      {g:"plan", t:`<b>Couldn't connect coursework to anything.</b> Stage 1's outcome linking intended coursework to an explored area was the first time the classes felt like they pointed somewhere.`, tag:"S1 · Make a Plan (single-stage)"},
+      {g:"plan", t:`<b>Values unexamined.</b> The narrowing at Stage 2 to 1–2 pathways came from research, not vibes — job titles, employer types, outlook data. Clarity arrived as a byproduct of evidence.`, tag:"S2 · Pathway Identification"},
+      {g:"network", t:`<b>Nobody to ask.</b> The Stage 1 structured interview with a Suffolk senior is a low-stakes first professional conversation, and it produced two concrete insights about a path this student hadn't considered.`, tag:"S1 · Structured Conversations"},
+      {g:"experience", t:`<b>WBL felt like a distant threat.</b> Stage 1's criteria outcome is explicitly a framework to carry forward, not a placement to identify yet. Naming what would count, before searching, removed the panic.`, tag:"S1 · WBL Quality"}
+    ],
+    moral:`The curriculum's most important move for this student is what it refuses to demand. Stage 1 doesn't ask for an answer — it asks for a method. Narrowing happens at Stage 2, on evidence, which is exactly when it should.`
+  },
+  {
+    id:"psych", cat:"discipline", mark:"loop", sq:"var(--p4)", sil:"#FFFFFF",
+    name:"The psychology student",
+    status:"Psychology major · Junior at Stage 3 · Assumed graduate school, unsure why",
+    narr:`Chose the major out of real interest and absorbed, somewhere along the way, that psychology means a doctorate. Has never seriously interrogated that assumption, partly because everyone repeats it and partly because a five-year plan is a comfortable way to avoid a two-year question. Strong on people, strong on research methods, and heading toward an expensive commitment on inherited logic.`,
+    wbl:"Research coordinator placement in a clinical research group; supervised by a full-time principal investigator.",
+    brought:[
+      `<b>Genuine interpersonal skill.</b> The Stage 1 networking-discomfort outcome surfaced almost nothing — so Stage 2 pushed to a harder professional scenario rather than a basic one.`,
+      `<b>Research literacy.</b> Made Stage 2's industry research and job-description analysis unusually rigorous.`,
+      `<b>Reflective habit.</b> The Career Plan iteration thread suited a student already trained to examine their own reasoning.`
+    ],
+    gaps:[
+      {g:"plan", t:`<b>Grad school as a default, not a decision.</b> Stage 4's outcome requires stating with a specific reason whether WBL confirmed, redirected, or expanded the pathway. The research placement confirmed it — but now for a reason the student could actually articulate.`, tag:"S4 · Pathway Identification"},
+      {g:"plan", t:`<b>No sense of the intermediate step.</b> Stage 2's narrowing surfaced research coordinator roles as a real pre-doctoral path this student had never heard of.`, tag:"S2 · Pathway Identification"},
+      {g:"experience", t:`<b>Never tested the assumption against work.</b> The Stage 3 purpose outcome asked whether the placement matched the stated purpose. It did — and knowing that is worth more than five years of assuming.`, tag:"S3 · Purpose & Goal-Setting"},
+      {g:"story", t:`<b>Academic register everywhere.</b> Stage 2's cover letter translation of a distinct experience into employer-legible language forced a second voice.`, tag:"S2 · Skills Translation"},
+      {g:"plan", t:`<b>All-or-nothing contingency.</b> Stage 4's contingency note asked what happens if the doctoral admission doesn't land on schedule — a question this student had actively avoided.`, tag:"S4 · Contingency"}
+    ],
+    moral:`Sometimes the curriculum's job is to confirm the plan the student already had — but to convert it from an inheritance into a decision. The destination didn't change. The reason did, and the reason is what an admissions committee actually reads.`
+  },
+  {
+    id:"certain", cat:"identity", mark:"converge", sq:"var(--p1)", sil:"#FFFFFF",
+    name:"The student who knows exactly what they want",
+    status:"Declared early · Sophomore at Stage 2 · Certain since before enrolling",
+    narr:`Arrived knowing. Has known since high school, has never wavered, and treats career programming as something designed for people with less clarity. The certainty is real and mostly well-founded — this student is not deluded. But certainty held long enough stops being tested, and the specific risk here is a plan that has never once encountered evidence that might complicate it.`,
+    wbl:"Placement secured independently at Stage 2, in exactly the field expected — evaluated against the program's quality thresholds before accepting.",
+    brought:[
+      `<b>A finalized pathway before Stage 1 ended.</b> Which the outcome explicitly permits: students in discipline-specific majors may naturally converge on real specificity. Valid — not required, and not a different track.`,
+      `<b>A search already underway.</b> Stage 2 assumes many students won't search for another 1–3 semesters, and accommodates those who already are.`,
+      `<b>A clear pitch.</b> The Stage 1 introduction was fluent. The interesting work was at Stage 2: what changed after a milestone.`
+    ],
+    gaps:[
+      {g:"plan", t:`<b>Certainty never stress-tested.</b> Stage 3's comparison of what they actually did against Stage 2's assumptions produced the first named surprise in four years of certainty.`, tag:"S3 · Pathway Identification"},
+      {g:"plan", t:`<b>Refused the alternate.</b> Stage 2's alternate-pathway outcome felt insulting and was completed grudgingly. Stage 3 then asked whether WBL strengthened or weakened its case — the honest answer was "strengthened," which was informative.`, tag:"S2–S3 · Contingency"},
+      {g:"experience", t:`<b>Accepted the first offer without evaluating it.</b> Applying the Stage 2 quality thresholds to a specific opportunity is a check this student would have skipped entirely.`, tag:"S2 · WBL Quality"},
+      {g:"experience", t:`<b>Blind spots invisible from inside.</b> The Stage 3 self- versus supervisor-evaluation discrepancy was the single most useful hour of the four stages, precisely because it came from outside.`, tag:"S3 · Self- vs. Supervisor-Evaluation"},
+      {g:"plan", t:`<b>A destination, not a next step.</b> Stage 4's 90-day action plan converted a long-held goal into something with a first move.`, tag:"S4 · Make a Plan (single-stage)"}
+    ],
+    moral:`Certainty is an asset that decays without contact. This student didn't need to be redirected — they needed one structured encounter with evidence, and the curriculum's answer was to give them the same stages as everyone else, where the demands happened to land somewhere they'd never looked.`
+  },
+  {
+    id:"pre-law", cat:"discipline", mark:"keystone", sq:"var(--p6)", sil:"#FFFFFF",
+    name:"The pre-law student",
+    status:"Government major · Junior at Stage 3 · Law school as a credential, not a job",
+    narr:`Is aiming at law school with real focus and has organized three years around the application. Strong writer, strong arguer, good numbers. But has confused a credential with a career: knows exactly how to get admitted and has genuinely no picture of what the working life looks like on the other side, which is a well-documented way to arrive at year three of practice wondering what happened.`,
+    wbl:"Legal assistant placement at a public defender's office; supervised by a full-time attorney.",
+    brought:[
+      `<b>Argument and writing under pressure.</b> The Stage 1 translation and Stage 2 cover letter outcomes were fast — the skill existed, only the vocabulary shifted.`,
+      `<b>A disciplined timeline.</b> Stage 2's search tactics outcome mostly documented what was already in motion.`,
+      `<b>Interview poise.</b> The Stage 2 mock interview surfaced polish, so the improvement areas named were substantive rather than mechanical.`
+    ],
+    gaps:[
+      {g:"plan", t:`<b>The credential <i>was</i> the plan.</b> Stage 2's narrowing demands job titles and employer types — which meant naming what kind of law, for whom, doing what all day. The question had never been asked.`, tag:"S2 · Pathway Identification"},
+      {g:"experience", t:`<b>Never seen the work.</b> The public defender placement was the first contact with actual practice. Stage 3's purpose outcome asked whether it matched the stated purpose — the honest answer reshaped the application list.`, tag:"S3 · Purpose & Goal-Setting"},
+      {g:"network", t:`<b>Knew no practicing attorneys.</b> Stage 4's capstone conversation with a professional in the target field, specifically to pressure-test the plan, is the outcome that saved this student three years.`, tag:"S4 · Structured Conversations"},
+      {g:"plan", t:`<b>No plan for a deferred cycle.</b> Stage 4's contingency note addressed what happens if admission doesn't land on schedule — a scenario that is common and, for this student, unthinkable.`, tag:"S4 · Contingency"},
+      {g:"experience", t:`<b>Transferable skills unnamed.</b> The Stage 3 broad-skill outcome required one concrete example of communication or problem-solving from the placement — useful for applications, and more useful later.`, tag:"S3 · Broad Skill"}
+    ],
+    moral:`Getting in is not the same as knowing what you're getting into. The curriculum's contribution wasn't doubt — it was contact with the actual work, early enough that the plan could still absorb what it found.`
+  },
+  {
+    id:"transfer", cat:"identity", mark:"bridge", sq:"var(--p5)", sil:"#FFFFFF",
+    name:"The transfer student",
+    status:"Transferred junior year · Enters at Stage 2 · No FYE, no Suffolk network",
+    narr:`Arrived with sixty credits, real academic momentum, and none of the connective tissue that students who started here take for granted. Has already done some version of a first-year seminar somewhere else, has work experience, and is now two years from graduating with a professional network located at a different institution. The gap is structural, not personal: this student missed the stage where everyone else built their base.`,
+    wbl:"Data analysis placement at a logistics company, built from prior work experience and secured during senior fall.",
+    brought:[
+      `<b>Prior career programming.</b> Had done a career course elsewhere. Stage 2's demands are tactically different enough — LinkedIn, mock interview, alum conversation, documented search strategy — that overlap was minimal.`,
+      `<b>Substantial work history.</b> Which Stage 2's skills-based resume outcome translated rather than introduced.`,
+      `<b>Self-direction.</b> Transferring is itself evidence of navigating institutions.`
+    ],
+    gaps:[
+      {g:"network", t:`<b>A network at the wrong school.</b> The Stage 1 inventory outcome, completed late, made the actual problem visible: contacts existed, but none of them were here.`, tag:"S1 · Network Inventory (completed at S2)"},
+      {g:"network", t:`<b>No alumni access built.</b> The Stage 2 alum conversation is the fastest available on-ramp into a Suffolk network this student had two years to build rather than four.`, tag:"S2 · Structured Conversations"},
+      {g:"plan", t:`<b>A compressed timeline.</b> Stage 2's search tactics outcome explicitly accommodates a search that extends beyond the semester — but for this student it couldn't. Naming the compression changed the tactics.`, tag:"S2 · WBL Search Readiness"},
+      {g:"experience", t:`<b>Assumed prior jobs counted automatically.</b> The Stage 2 quality thresholds clarified that field relevance and professional supervision are the test — which redirected the search productively.`, tag:"S2 · WBL Quality"},
+      {g:"plan", t:`<b>No Stage 1 base to iterate from.</b> Career Plan v2.0 had to do double duty. It worked, but this is the seam where transfer students need advising support most.`, tag:"S2 · Career Plan"}
+    ],
+    moral:`Transfer students don't need less of the curriculum — they need it faster and out of order. The four-stage structure holds, but the entry point is the design problem, and it's worth solving deliberately rather than by exception.`
+  },
+  {
+    id:"athlete", cat:"identity", mark:"stack", sq:"var(--p3)", sil:"#1A1A1A",
+    name:"The student-athlete",
+    status:"In-season commitment · Junior at Stage 3 · Enormous skill base, no vocabulary",
+    narr:`Has spent four years being coached, evaluated, and held to a standard — which is to say, has more experience receiving professional feedback than nearly anyone else in the cohort. Also has a schedule that makes a traditional summer internship structurally difficult, and has never once described any of the athletic experience in language an employer would recognize. Everything needed is present. None of it is legible.`,
+    wbl:"Approved project-based placement with the athletics department's operations group, structured to meet WBL thresholds around an in-season schedule.",
+    brought:[
+      `<b>Unusual fluency with feedback.</b> The Stage 3 supervisor coaching outcome was almost trivially met — this student has been receiving and acting on coaching for a decade.`,
+      `<b>Real teamwork evidence.</b> Stage 3's broad-skill outcome had a concrete example immediately available.`,
+      `<b>Discipline around time.</b> Made the Stage 2 search timeline realistic rather than aspirational.`
+    ],
+    gaps:[
+      {g:"story", t:`<b>Ten years of experience, none of it translated.</b> The Stage 1 translation outcome into NACE competency vocabulary was the unlock. "Team captain" became evidence of leadership and conflict resolution, stated in words that transfer.`, tag:"S1 · Skills Translation"},
+      {g:"experience", t:`<b>Believed WBL was impossible on this schedule.</b> The Stage 1 criteria outcome — and the proposal's definition of WBL as any experience meeting quality internship outcomes — opened approved project work as a legitimate route. This is the failsafe working as designed.`, tag:"S1 · WBL Quality"},
+      {g:"network", t:`<b>Network entirely inside athletics.</b> The Stage 1 inventory's gap category was stark. Stage 2's outreach began building outside it.`, tag:"S1–S2 · Network Inventory"},
+      {g:"plan", t:`<b>Identity tied to the sport.</b> Stage 4's competency comparison between Stage 1 and Stage 4 self-ratings gave this student evidence of growth that wasn't athletic.`, tag:"S4 · Competency Self-Assessment"},
+      {g:"story", t:`<b>No professional narrative.</b> Stage 4's 2–3 minute pitch integrated the athletic record as an asset rather than an explanation for a thin resume.`, tag:"S4 · Personal Narrative"}
+    ],
+    moral:`This student was never short on experience — only on translation and access. A requirement that defines WBL by learning outcomes rather than by format is what made the whole thing possible on their schedule.`
+  },
+  {
+    id:"working", cat:"identity", mark:"offset", sq:"var(--p2)", sil:"#1A1A1A",
+    name:"The student working 25+ hours a week",
+    status:"Employed off-campus throughout · Junior at Stage 3 · No room for an unpaid summer",
+    narr:`Works because the alternative is not attending. Is competent, reliable, and exhausted, and has watched classmates take unpaid internships with a mixture of resignation and quiet anger. The traditional internship model is not difficult for this student — it is unavailable. Any requirement that assumes a free summer is a requirement that selects against them.`,
+    wbl:"An approved project at their existing employer, scoped with a supervisor to meet field-relevance and evaluation thresholds.",
+    brought:[
+      `<b>Years of real employment.</b> Supervision, evaluation, and workplace navigation were known territory before Stage 1 began.`,
+      `<b>A functioning resume.</b> Stage 1's review pushed on translation rather than construction.`,
+      `<b>Accurate self-assessment.</b> The Stage 1 competency rating was honest, because this student has been evaluated by real managers for years.`
+    ],
+    gaps:[
+      {g:"experience", t:`<b>Assumed the job didn't count.</b> The Stage 2 quality thresholds outcome, applied to their own workplace, revealed that a scoped project with the right supervision and field relevance would qualify. This is the single most consequential moment in this student's four stages.`, tag:"S2 · WBL Quality"},
+      {g:"plan", t:`<b>Never distinguished a job from a career step.</b> Stage 2's narrowing to 1–2 pathways asked, for the first time, whether the work led anywhere they wanted to go.`, tag:"S2 · Pathway Identification"},
+      {g:"experience", t:`<b>No stated purpose.</b> The Stage 2 purpose statement — exploration, skill-building, or a full-time offer — turned an income source into a deliberate step.`, tag:"S2 · Purpose & Goal-Setting"},
+      {g:"story", t:`<b>Work history framed as a liability.</b> Stage 3's outcomes-not-duties resume revision reframed the employment as the strongest thing on the page.`, tag:"S3 · Resume"},
+      {g:"network", t:`<b>No time for networking events.</b> Stage 2's outreach outcome is asynchronous by design — three personalized messages, not three receptions. The format was the accommodation.`, tag:"S2 · Outreach & the Ask"}
+    ],
+    moral:`If WBL means "unpaid summer internship," this requirement quietly excludes the students who most need what it provides. Defining it by learning outcomes — and building the on-campus and approved-project failsafes — is what makes it a requirement rather than a filter.`
+  },
+  {
+    id:"international", cat:"identity", mark:"pivot", sq:"var(--p4)", sil:"#FFFFFF",
+    name:"The international student",
+    status:"F-1 visa · Junior at Stage 3 · Work authorization shapes everything",
+    narr:`Is academically excellent and navigating a search with constraints most classmates never think about: authorization timelines, employer willingness, and a set of professional norms around self-promotion that read as immodest where this student is from. Has been told to network and found the instruction culturally illegible rather than difficult. The barriers are real, external, and compounding — which makes the structured version of this work far more valuable than the informal version.`,
+    wbl:"CPT-authorized placement with a global consulting firm's Boston office; supervised by a full-time manager.",
+    brought:[
+      `<b>Multilingual and cross-cultural fluency.</b> A genuine differentiator that Stage 4's competency case finally stated as one.`,
+      `<b>Strong academic record.</b> Made the Stage 2 industry research outcome thorough.`,
+      `<b>Prior professional experience abroad.</b> Which Stage 2's skills-based resume translated into a US-legible register.`
+    ],
+    gaps:[
+      {g:"experience", t:`<b>Authorization narrowed the field invisibly.</b> The Stage 2 quality thresholds outcome, applied against a real constraint, made the search strategy specific rather than broad and futile.`, tag:"S2 · WBL Quality"},
+      {g:"network", t:`<b>Networking read as immodesty.</b> The Stage 2 rehearsed ask before live outreach was the mechanism. Roleplay made an unfamiliar cultural script practicable rather than theoretical.`, tag:"S2 · Outreach & the Ask"},
+      {g:"story", t:`<b>Understated everything.</b> The Stage 1 introduction outcome, delivered in conversational register, ran headlong into a norm about self-description. Naming that was the work.`, tag:"S1 · Personal Narrative"},
+      {g:"plan", t:`<b>Timeline pressure nobody else faces.</b> Stage 2's search tactics outcome had to account for authorization lead times, which made the documented strategy load-bearing rather than procedural.`, tag:"S2 · WBL Search Readiness"},
+      {g:"plan", t:`<b>Contingency across two countries.</b> Stage 4's contingency note addressed what happens if the post-Suffolk goal doesn't materialize on schedule — for this student, a materially different question.`, tag:"S4 · Contingency"}
+    ],
+    moral:`The constraints here aren't going away, and the curriculum can't remove them. What it can do is make the search strategic instead of hopeful — and give a student one structured, low-stakes place to practice a professional norm nobody ever explained.`
+  },
+  {
+    id:"adult-learner", cat:"identity", mark:"wedge", sq:"var(--p6)", sil:"#FFFFFF",
+    name:"The adult learner changing careers",
+    status:"Returning student · Enters at Stage 2 · Fifteen years of prior professional identity",
+    narr:`Has a career already, and is here to leave it. Brings more workplace experience than most of the staff advising them, and a specific problem no traditional-age student has: the resume tells a coherent story about a person they are deliberately no longer being. This isn't discovery. It's repositioning, and the risk is being read as either overqualified or as starting from zero — both wrong.`,
+    wbl:"Approved project placement bridging prior industry expertise into the target field; supervised by a full-time director.",
+    brought:[
+      `<b>Deep professional judgment.</b> The Stage 2 supervision-expectations outcome and Stage 3's feedback outcomes were met from long experience.`,
+      `<b>A real network — in the old field.</b> The Stage 1 inventory found it substantial and pointed the wrong way.`,
+      `<b>Clarity about values.</b> Knows exactly why they're leaving, which made Stage 2's narrowing efficient.`
+    ],
+    gaps:[
+      {g:"story", t:`<b>A resume telling the wrong story.</b> Stage 2's skills-based resume outcome is designed for exactly this: translating a record into skill statements rather than a chronology. The chronology was the problem.`, tag:"S2 · Resume"},
+      {g:"story", t:`<b>No narrative for the pivot.</b> Stage 4's professional narrative integrating story, network, and experience is where fifteen years stopped being a liability to explain and became the argument.`, tag:"S4 · Personal Narrative"},
+      {g:"network", t:`<b>Network pointed backwards.</b> Stage 2's gap-filling outcome — one specific action to fill a named category — meant building into the target field from scratch, at an age where asking feels different.`, tag:"S2 · Network Inventory"},
+      {g:"plan", t:`<b>Underestimated the new field's specifics.</b> Stage 2's demand for real job titles and required credentials surfaced a licensure requirement that reshaped the timeline.`, tag:"S2 · Pathway Identification"},
+      {g:"experience", t:`<b>Resisted WBL as a step backward.</b> The Stage 2 purpose outcome reframed it: not junior work, but the fastest available evidence of credibility in a field with no track record yet.`, tag:"S2 · Purpose & Goal-Setting"}
+    ],
+    moral:`Experience is not the same as relevance, and a curriculum built around iteration handles a career change better than one built around discovery. This student didn't need to find a direction — they needed to make an existing record legible to a field that had never seen it.`
+  },
+  {
+    id:"failed-search", cat:"identity", mark:"grid", sq:"var(--p1)", sil:"#FFFFFF",
+    name:"The student whose first WBL search failed",
+    status:"Searched at Stage 2, secured nothing · Junior · Second search underway",
+    narr:`Did everything asked. Applied to twenty-two placements in the spring of sophomore year, was interviewed by four, and received nothing. Took it personally, because at that age a rejection is indistinguishable from a verdict. This is the persona the requirement is most often objected to on behalf of — and the one where the design's answer is most concrete: the search started early <i>because</i> it might fail.`,
+    wbl:"Secured on the second attempt, senior fall — a placement in a nearby adjacent field, sourced through the Stage 2 contingency work.",
+    brought:[
+      `<b>Real persistence.</b> Twenty-two applications is not a motivation problem, and treating it as one would have been the wrong diagnosis.`,
+      `<b>A completed Stage 2.</b> Every outcome met. The failure wasn't compliance — which is exactly why the diagnostic had to be elsewhere.`,
+      `<b>Honest self-assessment.</b> Made the post-mortem usable rather than defensive.`
+    ],
+    gaps:[
+      {g:"plan", t:`<b>Searched one pathway only.</b> The Stage 2 alternate-pathway outcome had been completed as a formality. It became the entire second search — the adjacent field was already named and researched.`, tag:"S2 · Contingency"},
+      {g:"experience", t:`<b>Applied to opportunities that were never qualifying.</b> Re-applying the Stage 2 quality thresholds to the twenty-two showed that several wouldn't have counted anyway. The funnel was narrower than it looked.`, tag:"S2 · WBL Quality"},
+      {g:"network", t:`<b>Applied cold, every time.</b> Twenty-two portal applications, zero referrals. The Stage 2 outreach outcome had been done at minimum viable scale; the second search inverted the ratio.`, tag:"S2 · Outreach & the Ask"},
+      {g:"story", t:`<b>Four interviews, no conversion.</b> The Stage 2 mock interview's self-identified areas hadn't been acted on. Returning to them with four real data points made the diagnosis specific.`, tag:"S2 · Interview Performance"},
+      {g:"plan", t:`<b>Read failure as a verdict.</b> Career Plan v2.0's revision — documenting what changed and why — is the structural answer to a student concluding they're the problem.`, tag:"S2 · Career Plan"}
+    ],
+    moral:`This is why the recommendation is to attempt WBL earlier than the optimal window. A first search that fails at Stage 2 is recoverable; a first search that fails senior spring is a graduation problem. The contingency outcome isn't paperwork — for this student it was the whole second attempt.`
+  }
+];
+
+/* ---------- render ---------- */
+const $ = s => document.querySelector(s);
+
+function tocLinks(list){
+  return list.map(p=>`
+    <a href="#${p.id}" style="--sq:${p.sq}">
+      <span class="chip"></span>
+      <span class="toc-name">${p.name.replace(/^The /,"")}</span>
+    </a>`).join("");
+}
+const discipline = P.filter(p=>p.cat==="discipline");
+const identity = P.filter(p=>p.cat==="identity");
+$("#toc").innerHTML = `
+  <div class="toc-section">
+    <div class="toc-section-head">Discipline-based<span class="toc-section-sub">— defined by major or field of study</span></div>
+    <div class="toc-grid">${tocLinks(discipline)}</div>
+  </div>
+  <div class="toc-section">
+    <div class="toc-section-head">Identity-based<span class="toc-section-sub">— defined by circumstance or characteristic</span></div>
+    <div class="toc-grid">${tocLinks(identity)}</div>
+  </div>`;
+
+function avatar(p){
+  return `<svg class="avatar" viewBox="0 0 76 76" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${p.name} mark">
+    <rect width="76" height="76" rx="3" fill="${p.sq}"/>
+    <g style="--sil:${p.sil}">${MARKS[p.mark]}</g>
+  </svg>`;
+}
+
+$("#board").innerHTML = P.map((p,i)=>`
+  <article class="persona" id="${p.id}" style="--sq:${p.sq};--sil:${p.sq}">
+    <div class="p-head">
+      ${avatar(p)}
+      <div class="p-titles">
+        <div class="p-kicker"><a class="totop" href="#top">↑ Top</a></div>
+        <h2 class="p-name">${p.name}</h2>
+        <div class="p-status">${p.status}</div>
+      </div>
+    </div>
+    <p class="p-narr">${p.narr}</p>
+    <div class="wbl"><b>Work-based learning</b> ${p.wbl}</div>
+    <div class="lists">
+      <div class="brought">
+        <div class="lh">Arrived already holding</div>
+        <ul class="items">${p.brought.map(b=>`<li><span class="dot"></span><span>${b}</span></li>`).join("")}</ul>
+      </div>
+      <div>
+        <div class="lh">Gaps the four stages addressed</div>
+        <ul class="items">${p.gaps.map(g=>`
+          <li style="--gc:var(--${g.g})"><span class="dot"></span>
+            <span>${g.t} <span class="tag">— ${g.tag}</span></span>
+          </li>`).join("")}</ul>
+      </div>
+    </div>
+    <p class="moral">${p.moral}</p>
+  </article>`).join("");
+
+/* theme */
+const tb = $("#themeBtn");
+function setTheme(t){
+  document.documentElement.setAttribute("data-theme",t);
+  tb.textContent = t==="dark" ? "Light mode" : "Dark mode";
+}
+tb.addEventListener("click",()=>setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark"));
+setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+</script>
+</body>
+</html>

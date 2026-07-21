@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CS&D Behavioral Outcomes Ladder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --plan:#1F5C73;
+  --story:#7A3E5C;
+  --network:#5A5A2E;
+  --experience:#6B3D1E;
+
+  --bg:#FFFFFF;
+  --ink:#000000;
+  --ink-2:#3D3D3D;
+  --ink-3:#6E6E6E;
+  --rule:#D8D8D8;
+  --rule-soft:#EAEAEA;
+  --panel:#FAFAFA;
+  --arrow:#BDBDBD;
+}
+html[data-theme="dark"]{
+  --plan:#6FB6D1;
+  --story:#D394B0;
+  --network:#B6B66A;
+  --experience:#D3936A;
+
+  --bg:#000000;
+  --ink:#FFFFFF;
+  --ink-2:#C6C6C6;
+  --ink-3:#8E8E8E;
+  --rule:#333333;
+  --rule-soft:#1E1E1E;
+  --panel:#0B0B0B;
+  --arrow:#4A4A4A;
+}
+
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  font-size:15px;
+  line-height:1.5;
+  transition:background .25s ease,color .25s ease;
+}
+a{color:inherit;}
+
+.wrap{max-width:1560px;margin:0 auto;padding:0 28px 120px;}
+
+/* ---------- masthead ---------- */
+.mast{
+  padding:44px 0 26px;
+  border-bottom:1px solid var(--ink);
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  flex-wrap:wrap;
+}
+.mast-eyebrow{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  margin-bottom:12px;
+}
+h1{
+  font-family:"Newsreader",Georgia,serif;
+  font-weight:500;
+  font-size:clamp(30px,4.2vw,50px);
+  line-height:1.04;
+  letter-spacing:-.015em;
+  margin:0;
+}
+h1 em{font-style:italic;}
+.mast-meta{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:11px;
+  letter-spacing:.05em;
+  color:var(--ink-3);
+  text-align:right;
+  line-height:1.9;
+  white-space:nowrap;
+}
+.theme-btn{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  background:none;
+  border:1px solid var(--rule);
+  color:var(--ink-2);
+  padding:7px 12px;
+  cursor:pointer;
+  border-radius:2px;
+  margin-top:8px;
+  transition:border-color .15s,color .15s;
+}
+.theme-btn:hover{border-color:var(--ink);color:var(--ink);}
+
+/* ---------- definitions ---------- */
+.defs{
+  display:grid;
+  grid-template-columns:1.35fr 1fr;
+  gap:0;
+  border-bottom:1px solid var(--ink);
+}
+.defcol{padding:30px 0 38px;}
+.defcol.left{padding-right:44px;border-right:1px solid var(--rule);}
+.defcol.right{padding-left:44px;}
+.defs-head{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  padding-bottom:12px;
+  border-bottom:1px solid var(--rule);
+  margin-bottom:22px;
+}
+
+/* stages: 2x2 in left column */
+.stagedefs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:26px 34px;
+}
+.stagedef{padding-left:14px;border-left:1px solid var(--rule);}
+.stagedef.wbl{border-left:1px solid var(--ink);}
+.sd-num{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-3);display:block;margin-bottom:4px;
+}
+.sd-name{
+  font-family:"Newsreader",Georgia,serif;
+  font-size:19px;font-weight:600;letter-spacing:-.012em;
+  display:block;margin-bottom:8px;line-height:1.15;
+}
+.stagedef.wbl .sd-name{font-style:italic;}
+.sd-when{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;line-height:1.55;letter-spacing:.01em;
+  color:var(--ink-3);
+  margin:0 0 8px;
+}
+.sd-what{
+  font-size:13px;line-height:1.5;color:var(--ink-2);margin:0;
+}
+
+/* goals: vertical stack in right column */
+.goaldefs{display:flex;flex-direction:column;gap:0;}
+.def{
+  padding:18px 0 18px 16px;
+  border-left:3px solid var(--gc);
+  border-bottom:1px solid var(--rule-soft);
+}
+.def:last-child{border-bottom:none;}
+.def-name{
+  font-family:"Newsreader",Georgia,serif;
+  font-size:19px;font-weight:600;letter-spacing:-.01em;
+  color:var(--gc);margin:0 0 7px;
+}
+.def-gloss{font-size:12.5px;line-height:1.5;color:var(--ink-2);margin:0 0 9px;}
+.def-goal{
+  font-family:"Newsreader",Georgia,serif;
+  font-size:13.5px;font-style:italic;line-height:1.45;
+  color:var(--ink);margin:0;
+}
+
+/* ---------- filter bar ---------- */
+.filterbar{
+  position:sticky;
+  top:0;
+  z-index:40;
+  background:var(--bg);
+  border-bottom:1px solid var(--ink);
+  padding:14px 0;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.filter-label{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  margin-right:4px;
+}
+.fbtn{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  font-family:"IBM Plex Sans",sans-serif;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:.01em;
+  padding:8px 13px;
+  border:1px solid var(--rule);
+  border-radius:2px;
+  background:transparent;
+  color:var(--ink-2);
+  cursor:pointer;
+  transition:border-color .15s,color .15s,background .15s;
+}
+.fbtn:hover{border-color:var(--gc);color:var(--ink);}
+.fbtn:focus-visible{outline:2px solid var(--gc);outline-offset:2px;}
+.fbtn .fico{
+  width:15px;height:15px;
+  flex:0 0 15px;
+  display:block;
+}
+.fbtn .fico path{
+  fill:var(--gc);
+}
+.fbtn[aria-pressed="true"]{
+  border-color:var(--gc);
+  color:var(--gc);
+  background:color-mix(in srgb,var(--gc) 9%,transparent);
+}
+.fbtn[aria-pressed="true"] .fico path{fill:var(--gc);}
+.fcount{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;
+  color:var(--ink-3);
+  margin-left:2px;
+}
+.fbtn[aria-pressed="true"] .fcount{color:var(--gc);}
+.clearbtn{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  background:none;border:none;
+  color:var(--ink-3);
+  cursor:pointer;
+  padding:8px 6px;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+.clearbtn:hover{color:var(--ink);}
+.clearbtn[hidden]{display:none;}
+.showing{
+  margin-left:auto;
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;
+  letter-spacing:.06em;
+  color:var(--ink-3);
+}
+
+/* ---------- stage header ---------- */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+.stagehead{
+  position:sticky;
+  top:57px;
+  z-index:30;
+  background:var(--bg);
+  border-bottom:1px solid var(--ink);
+}
+.sh{
+  padding:20px 22px 16px;
+  border-right:1px solid var(--rule-soft);
+}
+.sh:last-child{border-right:none;}
+.sh-num{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  display:block;
+  margin-bottom:5px;
+}
+.sh-name{
+  font-family:"Newsreader",Georgia,serif;
+  font-size:23px;
+  font-weight:600;
+  letter-spacing:-.012em;
+  line-height:1.1;
+  display:block;
+}
+.sh-nature{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10px;
+  letter-spacing:.05em;
+  color:var(--ink-3);
+  margin-top:6px;
+  display:block;
+}
+.sh.wbl .sh-name{font-style:italic;}
+
+/* ---------- board ---------- */
+.board{position:relative;padding-top:10px;}
+#arrows{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:1;overflow:visible;
+}
+/* Each thread = one grid row spanning 4 stage columns.
+   Cells align horizontally by construction. */
+.rows{
+  position:relative;z-index:2;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  column-gap:0;
+  row-gap:0;
+  align-items:stretch;
+}
+.rowlabel{
+  grid-column:1 / -1;
+  display:flex;align-items:baseline;gap:8px;
+  font-family:"IBM Plex Mono",monospace;
+  font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-3);
+  margin:22px 0 6px;
+  padding-top:12px;
+  border-top:1px solid var(--rule);
+}
+.rowlabel.first{margin-top:4px;}
+.rowlabel{scroll-margin-top:150px;}
+.rowlabel .tl-dot{
+  width:5px;height:5px;border-radius:50%;background:var(--gc);
+  flex:0 0 5px;transform:translateY(-1px);
+}
+.rowlabel .tl-rule{flex:1;height:1px;background:var(--rule-soft);}
+.rowlabel.solo-head{color:var(--ink-3);}
+
+.cell{
+  padding:0 22px 22px;
+  border-right:1px solid var(--rule-soft);
+  min-width:0;
+}
+.cell:nth-child(4n+1){padding-left:0;}
+.cell:nth-child(4n){border-right:none;padding-right:0;}
+
+.node{position:relative;padding:8px 0 0;}
+.node + .node{margin-top:14px;padding-top:14px;border-top:1px solid var(--rule-soft);}
+
+.n-body{display:flex;gap:11px;align-items:flex-start;}
+.bullet{
+  flex:0 0 9px;width:9px;height:9px;margin-top:6px;
+  background:var(--gc);border-radius:50%;
+}
+.node.solo .bullet{background:transparent;border:1.5px solid var(--gc);}
+.n-text{font-size:13.5px;line-height:1.5;color:var(--ink);margin:0;min-width:0;}
+.n-kind{font-weight:600;}
+.paren{font-size:12.5px;color:var(--ink-3);font-style:italic;}
+
+.cite{
+  display:inline-block;
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10px;font-weight:500;color:var(--ink-2);
+  border:1px solid var(--rule);border-radius:2px;
+  padding:0 4px;margin-left:5px;line-height:1.45;
+  text-decoration:none;vertical-align:1.5px;
+  transition:border-color .15s,color .15s;
+}
+.cite:hover,.cite:focus-visible{border-color:var(--ink);color:var(--ink);}
+
+/* ---------- empty state ---------- */
+.empty{
+  display:none;
+  padding:60px 0;
+  font-family:"IBM Plex Mono",monospace;
+  font-size:12px;
+  color:var(--ink-3);
+  letter-spacing:.05em;
+}
+
+/* ---------- notes + citations ---------- */
+.foot{margin-top:70px;}
+.foot-head{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  padding-bottom:12px;
+  border-bottom:1px solid var(--ink);
+  margin-bottom:22px;
+}
+.keyrow{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px 34px;
+  margin-bottom:64px;
+}
+.keyitem{font-size:13px;color:var(--ink-2);line-height:1.5;}
+.keyitem b{color:var(--ink);font-weight:600;}
+.keyitem .swatch{
+  display:inline-block;width:9px;height:9px;border-radius:50%;
+  background:var(--ink);margin-right:6px;vertical-align:0;
+}
+.keyitem .swatch.hollow{background:transparent;border:1.5px solid var(--ink);}
+
+ol.cites{
+  list-style:none;
+  counter-reset:c;
+  margin:0;padding:0;
+}
+ol.cites li{
+  counter-increment:c;
+  display:flex;
+  gap:14px;
+  padding:14px 0;
+  border-bottom:1px solid var(--rule-soft);
+  font-size:13.5px;
+  line-height:1.5;
+  color:var(--ink-2);
+  scroll-margin-top:120px;
+}
+ol.cites li::before{
+  content:"(" counter(c) ")";
+  font-family:"IBM Plex Mono",monospace;
+  font-size:11px;
+  color:var(--ink-3);
+  flex:0 0 34px;
+  padding-top:2px;
+}
+ol.cites li:target{background:var(--panel);}
+ol.cites li:target::before{color:var(--ink);}
+ol.cites a.src{
+  color:var(--ink);
+  text-decoration:underline;
+  text-underline-offset:3px;
+  text-decoration-thickness:1px;
+}
+ol.cites .internal{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:9.5px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  border:1px solid var(--rule);
+  border-radius:2px;
+  padding:1px 5px;
+  margin-left:8px;
+  white-space:nowrap;
+}
+
+.colophon{
+  margin-top:56px;
+  padding-top:18px;
+  border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;
+  letter-spacing:.05em;
+  color:var(--ink-3);
+  line-height:1.9;
+}
+
+@media (max-width:1180px){
+  .defs{grid-template-columns:1fr;}
+  .defcol.left{padding-right:0;border-right:none;border-bottom:1px solid var(--rule);padding-bottom:34px;}
+  .defcol.right{padding-left:0;padding-top:30px;}
+}
+@media (max-width:860px){
+  .wrap{padding:0 16px 80px;}
+  .stagedefs{grid-template-columns:1fr;}
+  .grid{grid-template-columns:1fr;}
+  .stagehead{display:none;}
+  .filterbar{position:static;}
+  .rows{grid-template-columns:1fr;}
+  .rowlabel{margin-top:26px;}
+  .cell{
+    border-right:none;
+    padding:0 0 8px;
+  }
+  .cell:empty{display:none;}
+  .cell::before{
+    content:attr(data-stage);
+    display:block;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-3);
+    margin:10px 0 8px;
+  }
+  #arrows{display:none;}
+  .showing{margin-left:0;width:100%;}
+  .mast-meta{text-align:left;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <div>
+      <div class="mast-eyebrow">Suffolk University · General Education Initiative</div>
+      <h1>Career Strategy &amp; Design<br><em>Behavioral Outcomes Ladder</em></h1>
+    </div>
+    <div class="mast-meta">
+      77 outcomes · 21 threads · 4 stages<br>
+      Stage 1 → Stage 4 continuum
+      <br><button class="theme-btn" id="themeBtn" aria-label="Switch to dark mode">Dark mode</button>
+    </div>
+  </header>
+
+  <section class="defs">
+    <div class="defcol left">
+      <div class="defs-head">The four stages</div>
+      <div class="stagedefs" id="stagedefs"></div>
+    </div>
+    <div class="defcol right">
+      <div class="defs-head">The four learning goals</div>
+      <div class="goaldefs" id="goaldefs"></div>
+    </div>
+  </section>
+
+  <div class="filterbar">
+    <span class="filter-label">Filter by goal</span>
+    <div id="fbtns" style="display:contents"></div>
+    <button class="clearbtn" id="clearBtn" hidden>Show all goals</button>
+    <span class="showing" id="showing">Showing all 77 outcomes</span>
+  </div>
+
+  <div class="grid stagehead" id="stagehead"></div>
+
+  <div class="board">
+    <svg id="arrows" aria-hidden="true"></svg>
+    <div class="rows" id="board"></div>
+  </div>
+  <div class="empty" id="empty">No outcomes match this filter.</div>
+
+  <footer class="foot">
+    <div class="foot-head">Reading the ladder</div>
+    <div class="keyrow">
+      <div class="keyitem"><span class="swatch"></span><b>Threaded outcome.</b> Part of a progression carried across 3–4 stages. Arrows run left to right; the thread name sits above its earliest visible stage.</div>
+      <div class="keyitem"><span class="swatch hollow"></span><b>Single-stage outcome.</b> Rounds out a goal without forcing an artificial arc. No arrow, no thread name.</div>
+      <div class="keyitem"><b>Can…</b> a durable, transferable ability.<br><b>Has…</b> an artifact- or event-based outcome, where the completed act is the evidence.</div>
+      <div class="keyitem"><b>Bullet color</b> marks the learning goal. Goals are interrelated and non-chronological — outcomes sit in stage order, not goal order.</div>
+    </div>
+
+    <div class="foot-head" id="citations">Citations</div>
+    <ol class="cites" id="citelist"></ol>
+
+    <div class="colophon">
+      Stage 3 → Stage 4 seam flagged as an open design lever — untouched this round.<br>
+      Stage numbering is intentional: Stage 4 is the culminating, senior-proximate point in a four-part progression. Do not substitute M1/M2/M3.<br>
+      <span style="color:var(--ink-2)">Count check: the handoff brief states 91 outcomes (23/24/22/22) but enumerates 77 (21/19/19/18) across 21 threads. This chart renders every outcome as written. The gap needs reconciling at the source.</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ============================ DATA ============================ */
+
+const GOALS = {
+  plan: {
+    name:"Make a Plan",
+    color:"var(--plan)",
+    gloss:"Understanding the resources and career pathways available; knowing the next steps you will take to learn more or advance along a given pathway.",
+    goal:"Students will design and iteratively revise a personalized career plan that integrates their evolving skills and goals with relevant experiences and an understanding of career opportunities."
+  },
+  story: {
+    name:"Share Your Story",
+    color:"var(--story)",
+    gloss:"Self-identifying and then persuasively articulating one’s unique skills and experiences to others (resumes, bios, interviews, pitches, etc.)",
+    goal:"Students will effectively articulate their skills, experiences, and professional goals while persuasively demonstrating how they align with future professional opportunities."
+  },
+  network: {
+    name:"Build Your Network",
+    color:"var(--network)",
+    gloss:"Gaining proficiency and confidence in one’s ability to develop social capital amongst colleagues, alumni, faculty, mentors, etc.",
+    goal:"Students will strategically cultivate and sustain professional relationships that expand their access to insights, opportunities, and long-term career development."
+  },
+  experience: {
+    name:"Gain Experience",
+    color:"var(--experience)",
+    gloss:"Many experiences promote professional growth; this goal refers specifically to work-based learning.",
+    goal:"Students will critically reflect on and integrate the competencies, feedback, and professional insights gained through structured, supervised work-based learning into their evolving career strategy and professional identity."
+  }
+};
+
+const STAGES = [
+  {n:1, name:"Career Exploration", nature:"1-credit learning module",
+   when:"Possibly embed in FYE (e.g., CAS-101, SBS-100)",
+   what:"Augments the goals of an FYE course with reflective exercises about students’ interests, skills, career pathway options, and next steps to learn about those options."},
+  {n:2, name:"Career Fundamentals", nature:"1-credit learning module",
+   when:"A more tactically-focused career module",
+   what:"Research organizations & job descriptions, interview prep, building and leveraging networks, LinkedIn presence, establish timeline/strategy to secure work-based experience."},
+  {n:3, name:"Work-Based Learning", nature:"Employment-based experience", wbl:true,
+   when:"Various options and timelines; rising-junior summer optimal for FT conversion, but recommend students attempt earlier in case they are unsuccessful in first search.",
+   what:"Ensuring every Suffolk student has at least 1 experience that provides the extensively-researched benefits unique to being employed in a role directly or indirectly related to one’s intended future work."},
+  {n:4, name:"Career Launch", nature:"1-credit learning module",
+   when:"A checkpoint for students",
+   what:"Articulate post-Suffolk goals and provide an action plan to reach them."}
+];
+
+const CITES = [
+  {id:1, text:"NACE, Career Readiness Competencies — Career Readiness Defined.", url:"https://www.naceweb.org/career-readiness/competencies/career-readiness-defined/"},
+  {id:2, text:"Career Strategy &amp; Design Proposal (Suffolk University, June 2026).", url:"https://sumail-my.sharepoint.com/:p:/g/personal/dmerry_adm_suffolk_edu/IQCfdj3zkGulSq5OGw95aoguARhNAR-yDEf6ozm69CzhFxY?e=ycyUhw", internal:true},
+  {id:3, text:"NACE, <i>Job Outlook 2026</i>.", url:"https://cdn.uconnectlabs.com/wp-content/uploads/sites/576/2026/04/NACE-2026-job-outlook-report.pdf"},
+  {id:4, text:"AAC&amp;U, <i>The Career-Ready Graduate: What Employers Say About the Difference College Makes</i>.", url:"https://www.aacu.org/research/the-career-ready-graduate-what-employers-say-about-the-difference-college-makes"},
+  {id:5, text:"Strada, <i>Maximizing the Value of Internships: Advice from Employers</i>.", url:"https://www.strada.org/reports/maximizing-the-value-of-internships-advice-from-employers"},
+  {id:6, text:"Strada, <i>Internships and Beyond: Strengthening Career Value Across Diverse Models of Work-Based Learning</i>.", url:"https://www.strada.org/news-insights/internships-and-beyond-strengthening-career-value-across-diverse-models-of-work-based-learning"},
+  {id:7, text:"AAC&amp;U, <i>The Agility Imperative</i>.", url:"https://cdn.uconnectlabs.com/wp-content/uploads/sites/576/2026/05/AgilityImperative2025.pdf"}
+];
+
+/* kind: "Can" | "Has"; c: citation ids */
+const O = (id,goal,stage,kind,text,opts={}) =>
+  Object.assign({id,goal,stage,kind,text}, opts);
+
+const THREADS = [
+  {key:"pathway", goal:"plan", name:"Pathway Identification & Exploration", nodes:[
+    O("pathway-1","plan",1,"Has","conducted structured exploration across 2–3 broad areas of interest — pathway research, informational interviews, career-pathway tools — and produced a research map of what was explored and what remains open",{paren:"discipline-specific/professional majors may naturally converge on real specificity here — valid, not required"}),
+    O("pathway-2","plan",2,"Has","narrowed from that initial exploration to 1–2 target pathways, backed by deeper research — job titles, employer types, required skills/credentials, outlook data"),
+    O("pathway-3","plan",3,"Can","compare what they actually did in WBL against their Stage 2 pathway assumptions and has named at least one specific gap or surprise"),
+    O("pathway-4","plan",4,"Can","state, with a specific reason, whether WBL confirmed, redirected, or expanded their pathway, and has finalized a single primary pathway going forward")
+  ]},
+  {key:"cp", goal:"plan", name:"Career Plan Document (CP1.0 → CP4.0)", nodes:[
+    O("cp-1","plan",1,"Has","produced Career Plan v1.0 — open questions, areas explored, a personal method for continuing to narrow (not a finalized pathway)"),
+    O("cp-2","plan",2,"Has","revised the plan into v2.0, narrowing to 1–2 target pathways and documenting a WBL search strategy/criteria (search may begin now or in a future semester)"),
+    O("cp-3","plan",3,"Has","revised the plan into v3.0, documenting what was learned and what changed — operationalizing the proposal’s intent that students design and iteratively revise a personalized career plan integrating evolving skills, goals, and experience",{c:[2]}),
+    O("cp-4","plan",4,"Has","produced a final Career Plan v4.0 visibly reflecting/iterating v1–v3, stating a post-Suffolk goal and how they’ll achieve it")
+  ]},
+  {key:"comp", goal:"plan", name:"Competency Self-Assessment & Development", nodes:[
+    O("comp-1","plan",1,"Has","completed the NACE Career Readiness self-assessment and named their highest- and lowest-rated competency with one leverage/development action each",{c:[1]}),
+    O("comp-2","plan",2,"Has","re-rated competencies and can point to a specific experience that moved one rating"),
+    O("comp-4","plan",4,"Can","compare Stage 1 and Stage 4 self-ratings and articulate, with evidence, which competency grew most and why")
+  ]},
+  {key:"contingency", goal:"plan", name:"Contingency & Alternate-Pathway Planning", nodes:[
+    O("cont-2","plan",2,"Can","name at least one alternate pathway and one reason they might pursue it if their primary narrows further or changes"),
+    O("cont-3","plan",3,"Can","state whether their WBL experience strengthened or weakened the case for their named alternate"),
+    O("cont-4","plan",4,"Has","produced a brief contingency note addressing what they’d do if their primary post-Suffolk goal doesn’t materialize on schedule")
+  ]},
+  {key:"wblsearch", goal:"plan", name:"WBL Search Readiness", nodes:[
+    O("wbls-2","plan",2,"Has","identified 2–3 concrete tactics for finding/eventually securing a WBL placement aligned to their narrowed pathway(s), with the explicit understanding the active search may extend beyond this semester"),
+    O("wbls-3","plan",3,"Has","secured and begun a placement meeting the program’s quality thresholds — field-relevant responsibilities, supervision by a full-time professional, required hours",{c:[2]})
+  ]},
+
+  {key:"pitch", goal:"story", name:"Personal Narrative / Pitch", nodes:[
+    O("pitch-1","story",1,"Has","delivered a 60–90 second personal introduction (interests, skills, what they’re exploring) in conversational, not essayistic, register"),
+    O("pitch-2","story",2,"Has","revised their introduction to reflect a narrowed direction and one concrete new addition — a project, search milestone, or new skill"),
+    O("pitch-3","story",3,"Can","deliver an interview-style answer describing one specific piece of feedback received during WBL and how they responded to it"),
+    O("pitch-4","story",4,"Has","delivered a polished 2–3 minute professional narrative integrating story, network, and experience into a pitch for a specific target opportunity")
+  ]},
+  {key:"resume", goal:"story", name:"Resume", nodes:[
+    O("res-1","story",1,"Has","produced a first-draft resume and incorporated at least 2 specific changes from a Career Center review"),
+    O("res-2","story",2,"Has","produced a skills-based resume translating both coursework and extracurriculars into employer-legible skill statements — the two most common ways students demonstrate skills during a skills-based hiring process",{c:[3]}),
+    O("res-3","story",3,"Has","updated their resume with concrete WBL accomplishments stated as outcomes, not duties"),
+    O("res-4","story",4,"Has","produced a final, portfolio-ready resume aligned specifically to their stated post-Suffolk goal")
+  ]},
+  {key:"linkedin", goal:"story", name:"LinkedIn / Digital Presence", nodes:[
+    O("li-2","story",2,"Has","built a complete LinkedIn profile — headline, About section, experience in skills language"),
+    O("li-3","story",3,"Has","updated LinkedIn with WBL experience, a supervisor endorsement, or a skill added and verified during placement"),
+    O("li-4","story",4,"Has","audited and finalized LinkedIn presence for consistency with resume and target pathway")
+  ]},
+  {key:"interview", goal:"story", name:"Interview Performance", nodes:[
+    O("int-2","story",2,"Has","completed a mock interview and self-identified 2 specific areas for improvement, aligned with employer-flagged gap areas like oral communication and adaptability",{c:[4]}),
+    O("int-3","story",3,"Can","describe, using a specific example from their placement, how they’d answer a behavioral interview question about handling feedback or ambiguity"),
+    O("int-4","story",4,"Has","completed a full mock interview cycle for their specific target role and documented an improved confidence self-rating")
+  ]},
+  {key:"translate", goal:"story", name:"Skills Translation", nodes:[
+    O("tr-1","story",1,"Can","translate one piece of coursework or an extracurricular into skills-based language using NACE competency vocabulary"),
+    O("tr-2","story",2,"Has","produced a cover letter translating a second, distinct experience (a class project, leadership role) into employer-legible language"),
+    O("tr-4","story",4,"Can","translate their full academic and experiential record into a coherent, 3–4 competency “case” for a specific target role")
+  ]},
+
+  {key:"netmap", goal:"network", name:"Network Inventory & Mapping", nodes:[
+    O("nm-1","network",1,"Has","produced an initial network inventory/radial map, categorizing existing contacts by relationship type, and named at least one gap category"),
+    O("nm-2","network",2,"Can","name one specific action taken to fill a previously identified gap category (e.g., added a faculty mentor, alumni contact)"),
+    O("nm-3","network",3,"Has","added at least one new professional contact gained through their WBL placement (supervisor, colleague, client) to their network map"),
+    O("nm-4","network",4,"Has","produced an updated network map showing growth across all three prior stages, with contacts tagged by how each could support their post-Suffolk goal")
+  ]},
+  {key:"comfort", goal:"network", name:"Networking Comfort & Confidence", nodes:[
+    O("cf-1","network",1,"Can","name one specific networking scenario (e.g., a cold introduction, a senior interview) they find uncomfortable and why"),
+    O("cf-2","network",2,"Has","rated their comfort with a defined senior/professional interview scenario and named one specific behavior to build that comfort"),
+    O("cf-3","network",3,"Can","describe how interacting with supervisors/colleagues during WBL changed their comfort level with workplace networking"),
+    O("cf-4","network",4,"Has","converted an existing network contact into an informational interview or warm introduction for a specific post-Suffolk opportunity")
+  ]},
+  {key:"convos", goal:"network", name:"Structured Professional Conversations", nodes:[
+    O("cv-1","network",1,"Has","completed a structured interview with a Suffolk senior and extracted 2 concrete insights about a career path"),
+    O("cv-2","network",2,"Has","conducted one informational/career conversation with an alum and documented at least 2 takeaways"),
+    O("cv-3","network",3,"Can","describe one instance of receiving informal career advice or mentoring from someone at their placement site, beyond formal supervision"),
+    O("cv-4","network",4,"Has","conducted one final “capstone” conversation with a professional in their target field specifically to pressure-test their post-Suffolk plan")
+  ]},
+  {key:"ask", goal:"network", name:"Outreach & the Ask", nodes:[
+    O("ask-2a","network",2,"Has","rehearsed a scripted networking “ask” (e.g., requesting an informational interview) via roleplay before attempting it live"),
+    O("ask-2b","network",2,"Has","sent 3 personalized outreach messages to professionals in a pathway they’re exploring or have narrowed toward"),
+    O("ask-3","network",3,"Can","identify what made a specific outreach or ask during WBL succeed or fail, and name what they’d do differently"),
+    O("ask-4","network",4,"Has","drafted and sent one outreach message specifically aimed at generating a job lead, referral, or interview")
+  ]},
+
+  {key:"wblq", goal:"experience", name:"WBL Quality & Readiness", nodes:[
+    O("wq-1","experience",1,"Can","name the general criteria that would make a future opportunity legitimate WBL (supervision, defined responsibilities, hours, field relevance) — a framework to carry forward, not a placement to identify yet"),
+    O("wq-2","experience",2,"Can","apply the program’s WBL quality thresholds to evaluate any specific opportunity as it arises, whether or not actively searching yet"),
+    O("wq-3","experience",3,"Has","completed a placement meeting those thresholds, with supervisor sign-off documented")
+  ]},
+  {key:"purpose", goal:"experience", name:"Purpose & Goal-Setting", nodes:[
+    O("pp-2","experience",2,"Has","drafted a preliminary purpose statement — exploration, skill-building, or securing a full-time offer — to guide whichever placement they eventually pursue, matching the framework used to categorize student purpose for taking a work-based learning experience",{c:[6]}),
+    O("pp-3","experience",3,"Can","state whether their actual placement matched their stated purpose, and if not, why"),
+    O("pp-4","experience",4,"Can","articulate how their WBL purpose evolved from what they wrote pre-placement to what they’d say now")
+  ]},
+  {key:"tech", goal:"experience", name:"Technical Skill Development", nodes:[
+    O("th-2","experience",2,"Can","name the specific technical skill(s) they’d expect to build in their narrowed pathway, based on real job descriptions researched"),
+    O("th-3","experience",3,"Has","developed and can demonstrate (via example) at least one specific technical skill relevant to their career goals"),
+    O("th-4","experience",4,"Can","name a next technical skill gap to close in their first post-Suffolk role or further training, based on WBL experience")
+  ]},
+  {key:"broad", goal:"experience", name:"Broad / Transferable Skill Development", nodes:[
+    O("bd-3","experience",3,"Can","name a specific broad skill gained during WBL (communication, teamwork, problem-solving) and back it with one concrete example, echoing employer emphasis on real-world application and teamwork as top-rated hiring criteria",{c:[7]}),
+    O("bd-4","experience",4,"Has","articulated, in specific and comparative terms, how broad skill growth from WBL differentiates them as a candidate")
+  ]},
+  {key:"feedback", goal:"experience", name:"Feedback & Supervision", nodes:[
+    O("fb-2","experience",2,"Can","describe what kind of supervision/feedback structure they hope for in a future placement, based on what “good mentoring” looks like"),
+    O("fb-3","experience",3,"Can","describe how they received and acted on supervisor coaching or feedback during placement, reflecting effective-program practice built around consistent supervision and structured check-ins",{c:[5]}),
+    O("fb-4","experience",4,"Can","describe how they would set up a feedback relationship with a future manager, based on what worked (or didn’t) during WBL")
+  ]},
+  {key:"selfeval", goal:"experience", name:"Self- vs. Supervisor-Evaluation", nodes:[
+    O("se-3","experience",3,"Has","completed a structured self-evaluation and compared it against their supervisor’s evaluation, naming at least one discrepancy and its implication"),
+    O("se-4","experience",4,"Can","explain how that discrepancy changed how they now describe their own strengths/weaknesses to others")
+  ]}
+];
+
+const SOLOS = [
+  O("solo-p1a","plan",1,"Can","identify 3 credible sources of career/pathway information they will continue using, beyond informal peer/family advice"),
+  O("solo-p1b","plan",1,"Can","articulate a concrete link between their intended major/coursework and at least one area they explored"),
+  O("solo-p2","plan",2,"Has","articulated general criteria/goals an eventual WBL experience should meet, to guide their search whenever it begins — not a placement-specific learning goal"),
+  O("solo-p4a","plan",4,"Has","selected and completed 1–2 capstone actions (mock interview, grad application workshop) matched to a specific, self-identified gap"),
+  O("solo-p4b","plan",4,"Has","produced a defined post-Suffolk goal statement with a concrete 90-day action plan"),
+
+  O("solo-s1","story",1,"Has","produced a personal statement framing their background/skills for a specific audience or purpose"),
+  O("solo-s4","story",4,"Has","produced one additional portfolio artifact (writing sample, project deliverable, skills portfolio) beyond the resume, aligned to their target pathway"),
+
+  O("solo-n1","network",1,"Can","name at least one contact in each of 3–4 relationship categories (peer, faculty, alum, professional) useful for different career purposes"),
+  O("solo-n3","network",3,"Has","requested a supervisor evaluation and, from it, named one relationship worth maintaining post-WBL — reflecting effective-program practice built around structured, ongoing supervisor engagement rather than a one-time transaction",{c:[5]}),
+  O("solo-n4","network",4,"Has","produced a concrete plan for maintaining and expanding their network after graduation, including a specific outreach cadence"),
+
+  O("solo-e3","experience",3,"Has","produced a reflection connecting the WBL experience to their broader career plan — what changed, what was confirmed"),
+  O("solo-e4","experience",4,"Has","named a next-level experience goal (second placement, leadership role, research) that builds directly on what WBL revealed")
+];
+
+/* ============================ BUILD ============================ */
+
+const $ = s => document.querySelector(s);
+const esc = s => s;
+
+/* --- goal definitions --- */
+$("#stagedefs").innerHTML = STAGES.map(s=>`
+  <article class="stagedef ${s.wbl?'wbl':''}">
+    <span class="sd-num">Stage ${s.n} · ${s.nature}</span>
+    <span class="sd-name">${s.name}</span>
+    <p class="sd-when">${s.when}</p>
+    <p class="sd-what">${s.what}</p>
+  </article>`).join("");
+
+$("#goaldefs").innerHTML = Object.entries(GOALS).map(([k,g])=>`
+  <article class="def" style="--gc:${g.color}">
+    <h2 class="def-name">${g.name}</h2>
+    <p class="def-gloss">${g.gloss}</p>
+    <p class="def-goal">${g.goal}</p>
+  </article>`).join("");
+
+/* --- counts --- */
+const allNodes = [...THREADS.flatMap(t=>t.nodes.map(n=>({...n,thread:t.key}))), ...SOLOS.map(n=>({...n,thread:null}))];
+const countBy = g => allNodes.filter(n=>n.goal===g).length;
+
+/* --- filter buttons --- */
+const FICON = `<svg class="fico" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.6 2.2h12.8a.6.6 0 0 1 .46 1L10 9.1V14a.6.6 0 0 1-.9.52l-2.4-1.4a.6.6 0 0 1-.3-.52V9.1L1.14 3.2a.6.6 0 0 1 .46-1z"/></svg>`;
+$("#fbtns").innerHTML = Object.entries(GOALS).map(([k,g])=>`
+  <button class="fbtn" data-goal="${k}" aria-pressed="false" style="--gc:${g.color}">
+    ${g.name} ${FICON}<span class="fcount">${countBy(k)}</span>
+  </button>`).join("");
+
+/* --- stage headers --- */
+$("#stagehead").innerHTML = STAGES.map(s=>`
+  <div class="sh ${s.wbl?'wbl':''}">
+    <span class="sh-num">Stage ${s.n}</span>
+    <span class="sh-name">${s.name}</span>
+    <span class="sh-nature">${s.nature}</span>
+  </div>`).join("");
+
+/* --- citation list --- */
+$("#citelist").innerHTML = CITES.map(c=>`
+  <li id="cite-${c.id}">
+    <div>${c.url ? `<a class="src" href="${c.url}" target="_blank" rel="noopener">${c.text}</a>` : `${c.text}<span class="internal">Internal CS&amp;D library</span>`}</div>
+  </li>`).join("");
+
+/* --- board: one grid row per thread; cells align horizontally --- */
+function nodeHTML(n){
+  const g = GOALS[n.goal];
+  const cites = (n.c||[]).map(id=>`<a class="cite" href="#cite-${id}" aria-label="Citation ${id}">${id}</a>`).join("");
+  const paren = n.paren ? ` <span class="paren">(${n.paren})</span>` : "";
+  return `
+  <div class="node ${n.thread?'':'solo'}" data-goal="${n.goal}" data-id="${n.id}" ${n.thread?`data-thread="${n.thread}"`:''} style="--gc:${g.color}">
+    <div class="n-body">
+      <span class="bullet"></span>
+      <p class="n-text"><span class="n-kind">${n.kind}</span> ${n.text}${paren}${cites}</p>
+    </div>
+  </div>`;
+}
+
+function rowHTML(label, goalColor, cellsByStage, isFirst){
+  let out = "";
+  if(label){
+    out += `<div class="rowlabel ${isFirst?'first':''}" style="--gc:${goalColor}"><span class="tl-dot"></span>${label}<span class="tl-rule"></span></div>`;
+  }
+  for(let s=1;s<=4;s++){
+    out += `<div class="cell" data-stage="Stage ${s} · ${STAGES[s-1].name}">${(cellsByStage[s]||[]).join("")}</div>`;
+  }
+  return out;
+}
+
+function buildBoard(filter){
+  let html = "";
+  let first = true;
+  let count = 0;
+
+  // One row per thread — nodes land in their stage cell, so a thread
+  // reads as a single horizontal band across the four stages.
+  THREADS.forEach(t=>{
+    if(filter && t.goal!==filter) return;
+    const byStage = {};
+    t.nodes.forEach(n=>{
+      (byStage[n.stage] = byStage[n.stage] || []).push(nodeHTML({...n, thread:t.key}));
+      count++;
+    });
+    html += rowHTML(t.name, GOALS[t.goal].color, byStage, first);
+    first = false;
+  });
+
+  // Single-stage outcomes: one final row, no arrows, no thread name.
+  const solos = SOLOS.filter(n=>!filter || n.goal===filter);
+  if(solos.length){
+    const byStage = {};
+    solos.forEach(n=>{
+      (byStage[n.stage] = byStage[n.stage] || []).push(nodeHTML({...n, thread:null}));
+      count++;
+    });
+    html += `<div class="rowlabel solo-head" style="--gc:var(--ink-3)"><span class="tl-dot" style="background:transparent;border:1.5px solid var(--ink-3)"></span>Single-stage outcomes<span class="tl-rule"></span></div>`;
+    for(let s=1;s<=4;s++){
+      html += `<div class="cell" data-stage="Stage ${s} · ${STAGES[s-1].name}">${(byStage[s]||[]).join("")}</div>`;
+    }
+  }
+
+  $("#board").innerHTML = html;
+
+  $("#showing").textContent = filter
+    ? `Showing ${count} ${GOALS[filter].name} outcomes`
+    : `Showing all ${count} outcomes`;
+  $("#empty").style.display = count ? "none" : "block";
+
+  requestAnimationFrame(()=>requestAnimationFrame(drawArrows));
+}
+
+/* --- arrows: horizontal, along each thread's row --- */
+function drawArrows(){
+  const svg = $("#arrows");
+  const board = $("#board");
+  if(!svg || !board) return;
+  if(window.innerWidth <= 860){ svg.innerHTML=""; return; }
+
+  const wrapRect = svg.parentElement.getBoundingClientRect();
+  const h = board.getBoundingClientRect().height + 20;
+  svg.setAttribute("width", wrapRect.width);
+  svg.setAttribute("height", h);
+  svg.setAttribute("viewBox", `0 0 ${wrapRect.width} ${h}`);
+
+  let defs = `<defs>`;
+  Object.keys(GOALS).forEach(k=>{
+    defs += `<marker id="ah-${k}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 1 L7 4 L0 7 z" fill="var(--arrow)"/></marker>`;
+  });
+  defs += `</defs>`;
+
+  const active = document.querySelector('.fbtn[aria-pressed="true"]');
+  const filter = active ? active.dataset.goal : null;
+
+  let paths = "";
+  THREADS.forEach(t=>{
+    if(filter && t.goal!==filter) return;
+    const els = t.nodes
+      .map(n=>document.querySelector(`.node[data-id="${n.id}"]`))
+      .filter(Boolean);
+    for(let i=0;i<els.length-1;i++){
+      const a = els[i].getBoundingClientRect();
+      const b = els[i+1].getBoundingClientRect();
+      // Same row by construction, so a single shared y keeps the arrow level.
+      const bul = els[i].querySelector(".bullet").getBoundingClientRect();
+      const y = Math.round(bul.top + bul.height/2 - wrapRect.top) + 0.5;
+      const x1 = a.right - wrapRect.left + 5;
+      const x2 = b.left - wrapRect.left - 11;
+      if(x2 - x1 < 6) continue;
+      paths += `<path d="M${x1},${y} L${x2},${y}"
+        fill="none" stroke="var(--arrow)" stroke-width="1" stroke-dasharray="3 3"
+        marker-end="url(#ah-${t.goal})" opacity=".9"/>`;
+    }
+  });
+  svg.innerHTML = defs + paths;
+}
+
+/* --- interactions --- */
+let current = null;
+document.querySelectorAll(".fbtn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const g = btn.dataset.goal;
+    current = (current===g) ? null : g;
+    document.querySelectorAll(".fbtn").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.goal===current)));
+    $("#clearBtn").hidden = !current;
+    buildBoard(current);
+  });
+});
+$("#clearBtn").addEventListener("click", ()=>{
+  current = null;
+  document.querySelectorAll(".fbtn").forEach(b=>b.setAttribute("aria-pressed","false"));
+  $("#clearBtn").hidden = true;
+  buildBoard(null);
+});
+
+/* --- theme --- */
+const themeBtn = $("#themeBtn");
+function setTheme(t){
+  document.documentElement.setAttribute("data-theme", t);
+  themeBtn.textContent = t==="dark" ? "Light mode" : "Dark mode";
+  themeBtn.setAttribute("aria-label", t==="dark" ? "Switch to light mode" : "Switch to dark mode");
+  requestAnimationFrame(drawArrows);
+}
+themeBtn.addEventListener("click", ()=>{
+  setTheme(document.documentElement.getAttribute("data-theme")==="dark" ? "light":"dark");
+});
+setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+let rt;
+window.addEventListener("resize", ()=>{clearTimeout(rt); rt=setTimeout(drawArrows,120);});
+document.fonts && document.fonts.ready.then(()=>drawArrows());
+
+buildBoard(null);
+</script>
+</body>
+</html>
